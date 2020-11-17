@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const url = require("url");
 const path = require("path");
+const AdmZip = require('adm-zip-electron');
 
 let mainWindow
 
@@ -26,6 +27,16 @@ function createWindow() {
     mainWindow.on('closed', function () {
         mainWindow = null
     })
+
+    try {
+        var zip = new AdmZip("./test.zip");
+        zip.extractAllTo("./appb/", true);
+    }
+    catch (e) {
+        fs.writeFileSync(".log.html",
+            e,
+            "utf-8");
+    }
 }
 
 app.on('ready', createWindow)
